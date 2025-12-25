@@ -25,21 +25,13 @@ html, body {
   height: 100%;
 }
 
-/* ================= CLOCK ================= */
+/* ================= CLOCK (DESKTOP ONLY) ================= */
 .clock-wrapper {
   flex-shrink: 0;
   padding: 12px;
   display: flex;
   justify-content: center;
   background: #000;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
-}
-
-.clock-wrapper.hide {
-  max-height: 0;
-  padding: 0;
-  opacity: 0;
-  overflow: hidden;
 }
 
 #realtime-clock {
@@ -50,7 +42,7 @@ html, body {
   padding: 14px 18px;
   border-radius: 16px;
   background: #000;
-  width: min(92%, 420px);
+  width: 420px;
 
   box-shadow:
     0 0 10px rgba(255, 0, 0, 0.45),
@@ -59,10 +51,9 @@ html, body {
 }
 
 .clock-time {
-  font-size: clamp(28px, 9vw, 56px);
+  font-size: 56px;
   font-weight: 800;
   line-height: 1;
-  color: #fff;
   text-shadow:
     0 0 6px rgba(255, 0, 0, 0.9),
     0 0 14px rgba(255, 0, 0, 0.7),
@@ -79,7 +70,7 @@ html, body {
 }
 
 .clock-date {
-  font-size: clamp(12px, 3.6vw, 16px);
+  font-size: 16px;
   text-shadow:
     0 0 4px rgba(255, 0, 0, 0.6),
     0 0 10px rgba(255, 0, 0, 0.4);
@@ -88,7 +79,6 @@ html, body {
 /* ================= IFRAME ================= */
 .iframe-wrapper {
   flex: 1;
-  height: 100vh;
 }
 
 iframe {
@@ -97,10 +87,25 @@ iframe {
   border: none;
 }
 
-/* ================= MOBILE ONLY ================= */
+/* ================= MOBILE FULLSCREEN FIX ================= */
 @media (max-width: 768px) {
+
+  /* REMOVE CLOCK COMPLETELY */
+  .clock-wrapper {
+    display: none;
+  }
+
+  /* FORCE FULLSCREEN IFRAME */
   .iframe-wrapper {
+    position: fixed;
+    inset: 0;
     height: 100vh;
+    width: 100vw;
+  }
+
+  iframe {
+    height: 100vh;
+    width: 100vw;
   }
 }
 </style>
@@ -110,8 +115,8 @@ iframe {
 
 <div class="page">
 
-  <!-- CLOCK -->
-  <div class="clock-wrapper" id="clockWrapper">
+  <!-- CLOCK (DESKTOP ONLY) -->
+  <div class="clock-wrapper">
     <div id="realtime-clock">
       <div class="clock-time" id="clockTime">--:--</div>
       <div class="clock-date" id="clockDate">Loading...</div>
@@ -121,7 +126,6 @@ iframe {
   <!-- IFRAME -->
   <div class="iframe-wrapper">
     <iframe
-      id="contentFrame"
       src="https://script.google.com/macros/s/AKfycbzMNoVZt7ph3mqiKuMBIqDVW_tKluS2lWIPe8dTRjt1Y0vWu7TrnQPMEZtEOb6XREU0DQ/exec"
       allowfullscreen>
     </iframe>
@@ -157,26 +161,6 @@ iframe {
   updateClock();
   setInterval(updateClock, 1000);
 })();
-
-/* ================= MOBILE SIDEBAR FIX ================= */
-const clockWrapper = document.getElementById('clockWrapper');
-const iframe = document.getElementById('contentFrame');
-
-/* Hide clock when user taps iframe (mobile) */
-iframe.addEventListener('load', () => {
-  iframe.contentWindow?.addEventListener('click', () => {
-    if (window.innerWidth <= 768) {
-      clockWrapper.classList.add('hide');
-    }
-  });
-});
-
-/* Show clock again when user taps top */
-document.body.addEventListener('click', (e) => {
-  if (e.target.closest('.clock-wrapper')) {
-    clockWrapper.classList.remove('hide');
-  }
-});
 </script>
 
 </body>
