@@ -2,59 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- PROPER MOBILE VIEWPORT -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
 <title>Napoleon Malaysia</title>
-
 <style>
-/* ================= RESET ================= */
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   background: #000;
-  color: #fff;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* ================= FULLSCREEN IFRAME ================= */
-.iframe-wrapper {
+/* FULLSCREEN IFRAME */
+iframe {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: #000;
-}
-
-iframe {
-  width: 100%;
-  height: 100%;
   border: none;
-}
-
-/* ================= DESKTOP SAFE ================= */
-@media (min-width: 769px) {
-  .iframe-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
+  background: #000;
 }
 </style>
 </head>
-
 <body>
 
-<!-- FULLSCREEN CONTENT -->
-<div class="iframe-wrapper">
-  <iframe
-    src="https://script.google.com/macros/s/AKfycbzMNoVZt7ph3mqiKuMBIqDVW_tKluS2lWIPe8dTRjt1Y0vWu7TrnQPMEZtEOb6XREU0DQ/exec"
-    allowfullscreen>
-  </iframe>
-</div>
+<iframe 
+  src="https://script.google.com/macros/s/AKfycbzMNoVZt7ph3mqiKuMBIqDVW_tKluS2lWIPe8dTRjt1Y0vWu7TrnQPMEZtEOb6XREU0DQ/exec" 
+  allowfullscreen>
+</iframe>
 
 </body>
 </html>
