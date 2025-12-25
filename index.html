@@ -1,133 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Napoleon Malaysia</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      background: rgb(51, 51, 51);
-    }
-    iframe {
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
-</head>
-<body>
-  <!-- Realtime clock - paste into your mobile check-in page body -->
-<div id="realtime-clock" aria-live="polite">
-  <div class="clock-time" id="clockTime">--:--</div>
-  <div class="clock-date" id="clockDate">Loading date...</div>
-</div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Napoleon Malaysia</title>
 
 <style>
-  /* Mobile-friendly clock styles */
-  #realtime-clock{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:6px;
-    padding:10px 14px;
-    border-radius:14px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-    background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(250,250,250,0.5));
-    width: min(92%, 420px);
-    max-width: 420px;
-    margin: 10px auto;
-    -webkit-font-smoothing:antialiased;
-  }
+/* Reset */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #333;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-  .clock-time{
-    font-size: clamp(28px, 9vw, 56px);
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    line-height:1;
-  }
+/* Page layout */
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
-  .clock-time .ampm{
-    font-size: 0.42em;
-    font-weight:600;
-    margin-left:8px;
-    vertical-align:middle;
-  }
+/* ================= CLOCK AREA ================= */
+.clock-wrapper {
+  flex-shrink: 0;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  background: #333;
+}
 
-  .clock-date{
-    font-size: clamp(12px, 3.6vw, 16px);
-    color: #444;
-    font-weight:500;
-  }
+#realtime-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  width: min(92%, 420px);
+}
 
-  /* Optional: make the seconds smaller and less prominent */
-  .clock-time .secs{
-    font-size: 0.55em;
-    opacity:0.7;
-    margin-left:6px;
-  }
+.clock-time {
+  font-size: clamp(28px, 9vw, 56px);
+  font-weight: 700;
+  line-height: 1;
+}
 
-  /* Responsive touch: slightly bigger for touch targets on small phones */
-  @media (max-width:420px){
-    #realtime-clock { padding:12px; border-radius:12px; }
-    .clock-time { font-weight:700; }
-  }
+.clock-time .secs {
+  font-size: 0.55em;
+  opacity: 0.7;
+}
+
+.clock-time .ampm {
+  font-size: 0.42em;
+  margin-left: 6px;
+}
+
+.clock-date {
+  font-size: clamp(12px, 3.6vw, 16px);
+  color: #444;
+  font-weight: 500;
+}
+
+/* ================= IFRAME AREA ================= */
+.iframe-wrapper {
+  flex: 1;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 </style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- CLOCK SECTION -->
+  <div class="clock-wrapper">
+    <div id="realtime-clock" aria-live="polite">
+      <div class="clock-time" id="clockTime">--:--</div>
+      <div class="clock-date" id="clockDate">Loading date...</div>
+    </div>
+  </div>
+
+  <!-- IFRAME SECTION -->
+  <div class="iframe-wrapper">
+    <iframe src="https://script.google.com/macros/s/AKfycbzMNoVZt7ph3mqiKuMBIqDVW_tKluS2lWIPe8dTRjt1Y0vWu7TrnQPMEZtEOb6XREU0DQ/exec"></iframe>
+  </div>
+
+</div>
 
 <script>
-  (function(){
-    // CONFIG: set format here
-    const use24Hour = false; // set true for 24-hour format, false for 12-hour with AM/PM
-    const showSeconds = true; // set false to hide seconds
+(function(){
+  const use24Hour = false;   // true = 24h | false = 12h
+  const showSeconds = true;
 
-    const elTime = document.getElementById('clockTime');
-    const elDate = document.getElementById('clockDate');
+  const elTime = document.getElementById('clockTime');
+  const elDate = document.getElementById('clockDate');
 
-    function pad(n){ return n < 10 ? '0' + n : n; }
+  function pad(n){ return n < 10 ? '0' + n : n; }
 
-    function updateClock(){
-      const now = new Date();
-      let hours = now.getHours();
-      const mins = pad(now.getMinutes());
-      const secs = pad(now.getSeconds());
+  function updateClock(){
+    const now = new Date();
 
-      let ampm = '';
-      if(!use24Hour){
-        ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        if(hours === 0) hours = 12;
-      } else {
-        hours = pad(hours);
-      }
+    let hours = now.getHours();
+    const mins = pad(now.getMinutes());
+    const secs = pad(now.getSeconds());
 
-      const secondsPart = showSeconds ? `<span class="secs">:${secs}</span>` : '';
-
-      // Build time string: big hours:minutes, small seconds, small AM/PM
-      elTime.innerHTML = `${hours}:${mins}${secondsPart}` + (!use24Hour ? `<span class="ampm">${ampm}</span>` : '');
-
-      // Date: Weekday, DD Mon YYYY -> e.g. Monday, 6 Oct 2025
-      const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      const dayName = days[now.getDay()];
-      const dayNum = now.getDate();
-      const monthName = months[now.getMonth()];
-      const year = now.getFullYear();
-      elDate.textContent = `${dayName}, ${dayNum} ${monthName} ${year}`;
+    let ampm = '';
+    if(!use24Hour){
+      ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+    } else {
+      hours = pad(hours);
     }
 
-    // First run
-    updateClock();
-    // Update every second (1s)
-    setInterval(updateClock, 1000);
-  })();
+    elTime.innerHTML =
+      `${hours}:${mins}` +
+      (showSeconds ? `<span class="secs">:${secs}</span>` : '') +
+      (!use24Hour ? `<span class="ampm">${ampm}</span>` : '');
+
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    elDate.textContent =
+      `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+})();
 </script>
 
- 
-  <!-- Iframe loading your real app -->
-  <iframe src="https://script.google.com/macros/s/AKfycbzMNoVZt7ph3mqiKuMBIqDVW_tKluS2lWIPe8dTRjt1Y0vWu7TrnQPMEZtEOb6XREU0DQ/exec"></iframe>
 </body>
 </html>
