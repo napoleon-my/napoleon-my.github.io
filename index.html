@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- FORCE DESKTOP VIEW (NO MOBILE SCALING) -->
+<meta name="viewport" content="width=1280, initial-scale=1.0">
+
 <title>Napoleon Malaysia</title>
 
 <style>
@@ -14,6 +17,7 @@ html, body {
   background: #000;
   color: #fff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
 }
 
 /* ================= PAGE LAYOUT ================= */
@@ -21,12 +25,13 @@ html, body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 1280px; /* FORCE DESKTOP WIDTH */
 }
 
 /* ================= CLOCK AREA ================= */
 .clock-wrapper {
   flex-shrink: 0;
-  padding: 12px;
+  padding: 14px;
   display: flex;
   justify-content: center;
   background: #000;
@@ -37,29 +42,28 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 14px 18px;
-  border-radius: 16px;
+  padding: 16px 24px;
+  border-radius: 18px;
   background: #000;
-  width: min(92%, 420px);
+  width: 420px;
 
-  /* RED GLOW */
   box-shadow:
-    0 0 10px rgba(255, 0, 0, 0.4),
-    0 0 20px rgba(255, 0, 0, 0.3),
-    0 0 40px rgba(255, 0, 0, 0.2);
+    0 0 12px rgba(255, 0, 0, 0.5),
+    0 0 28px rgba(255, 0, 0, 0.35),
+    0 0 48px rgba(255, 0, 0, 0.25);
 }
 
 /* TIME */
 .clock-time {
-  font-size: clamp(28px, 9vw, 56px);
+  font-size: 56px;
   font-weight: 800;
   line-height: 1;
   color: #fff;
 
   text-shadow:
-    0 0 6px rgba(255, 0, 0, 0.8),
-    0 0 14px rgba(255, 0, 0, 0.6),
-    0 0 28px rgba(255, 0, 0, 0.4);
+    0 0 6px rgba(255, 0, 0, 0.9),
+    0 0 16px rgba(255, 0, 0, 0.7),
+    0 0 32px rgba(255, 0, 0, 0.5);
 }
 
 .clock-time .secs {
@@ -69,18 +73,18 @@ html, body {
 
 .clock-time .ampm {
   font-size: 0.42em;
-  margin-left: 6px;
+  margin-left: 8px;
 }
 
 /* DATE */
 .clock-date {
-  font-size: clamp(12px, 3.6vw, 16px);
+  font-size: 16px;
   font-weight: 500;
   color: #fff;
 
   text-shadow:
     0 0 4px rgba(255, 0, 0, 0.6),
-    0 0 10px rgba(255, 0, 0, 0.4);
+    0 0 12px rgba(255, 0, 0, 0.4);
 }
 
 /* ================= IFRAME AREA ================= */
@@ -110,14 +114,16 @@ iframe {
 
   <!-- IFRAME SECTION -->
   <div class="iframe-wrapper">
-    <iframe src="https://script.google.com/macros/s/AKfycbzMNoVZt7ph3mqiKuMBIqDVW_tKluS2lWIPe8dTRjt1Y0vWu7TrnQPMEZtEOb6XREU0DQ/exec"></iframe>
+    <iframe
+      src="https://script.google.com/macros/s/AKfycbzMNoVZt7ph3mqiKuMBIqDVW_tKluS2lWIPe8dTRjt1Y0vWu7TrnQPMEZtEOb6XREU0DQ/exec">
+    </iframe>
   </div>
 
 </div>
 
 <script>
 (function(){
-  const use24Hour = false;   // true = 24h | false = 12h
+  const use24Hour = false;
   const showSeconds = true;
 
   const elTime = document.getElementById('clockTime');
